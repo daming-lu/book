@@ -14,9 +14,6 @@
 
 from __future__ import print_function
 
-import time
-start = time.time()
-
 import os
 import paddle
 import paddle.fluid as fluid
@@ -117,7 +114,7 @@ def train(use_cuda, train_program, params_dirname):
             trainer.save_params(params_dirname)
 
     trainer.train(
-        num_epochs=4,
+        num_epochs=1,
         event_handler=event_handler,
         reader=train_reader,
         feed_order=feed_order)
@@ -144,16 +141,8 @@ def infer(use_cuda, inference_program, params_dirname=None):
     # Note that lod info should be a list of lists.
 
     reviews_str = [
-        'read the book forget the movie',
-        'this is a great movie',
-        'this is very bad',
-        'the movie makes me sick',
-        'you can never find a worse movie',
-        'what a masterpiece',
-        'it deserves any compliment',
-        'no movie this year could be better than this one',
-        'i would rather die',
-        'the movie should be burned in hell'
+        'read the book forget the movie', 'this is a great movie',
+        'this is very bad'
     ]
     reviews = [c.split() for c in reviews_str]
 
@@ -179,9 +168,6 @@ def main(use_cuda):
     train(use_cuda, train_program, params_dirname)
     infer(use_cuda, inference_program, params_dirname)
 
-    finish = time.time()
-    elapsed = finish - start
-    print(elapsed)
 
 if __name__ == '__main__':
     use_cuda = False # set to True if training with GPU
